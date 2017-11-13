@@ -5,21 +5,14 @@
 #include <cstdlib>
 
 using namespace std;
-//function checks to see if the image is a valid bitmap
-bool checkValidBitmap (string);
 
 //function checks to see if the image has the correct dimensions
-bool checkDimensions (string,int,int);
+bool checkDimensions (vector < vector <Pixel> >);
 
 //function determines average pixel value
-int averageRGB(int);
+vector <double> averageRGB ();
 
-//?
 void createComposite(vector<vector<Pixel>>)
-
-//function saves the image
-void saveImage(string);
-
 
 int main()
 {
@@ -31,8 +24,6 @@ int main()
 
         bool validBmp;
 
-        validBmp = image.isImage();
-
         //allows user to enter ten images
         for (int i=0; i<10; i++)
         {
@@ -40,30 +31,92 @@ int main()
                 cout<<"What is the name of the image you would like to upload?"<<endl;
                 cin>>imageName;
 
-                //if image
-                if (validBmp == true)
-                {
+                image.open(imageName);
 
-                        i++;
-                }
-                //if image is not a valid bitmap
-                else if(validBmp==false)
-                {
-                        i=i-1;
-                }
-                //if image isnt the same dimensions
-                else if ()
-                {
-                        i=i-1;
-                }
-                //if user enters "DONE"
-                else if (imageName=="DONE")
+                validBmp = image.isImage();
+
+                //if user enters DONE
+                if (imageName == "DONE")
                 {
                         i=10;
                 }
+                if (validBmp == true)
+                {
+                        //convert image to matrix of pixels
+
+                        bmp = image.toPixelMatrix();
+
+                        //check dimensions
+                        checkDimensions(bmp);
+
+                        if (checkDimensions==true)
+                        {
+                                i=i++;
+                        } 
+                        else 
+                        {
+                                i=i-1;
+                        }
+                        //find average value of pixels
+                        averageRGB();
+
+                }
+                else if (validBmp == false) 
+                {
+                        i=i-1;
+                }
+
                 cout<<"Image "<<(i+1)<<" of 10 done."<<endl;
         }
+
+        image.fromPixelMatrix(bmp);
+        image.save("composite-hsilveira1.bmp");
 
         return 0;
 }
 
+
+vector <double> averageRGB ();
+{
+        int avgRGB = 0;
+        vector <double> avg;
+
+        for (int r = 0; r < bmp.size(); r++)
+        {
+                for (int c = 0; c < bmp[r].size(); c++)
+                {
+                        rgb = bmp[r][c];
+
+                        avgRGB = (rgb.red + rgb.green + rgb.blue)/3;
+                        //  rgb.red = avgRGB;
+                        //  rgb.green = avgRGB;
+                        //  rgb.blue = avgRGB;
+                        //  bmp[r][c] = rgb;
+                }
+
+        }
+        //stores average RGB values in vector
+        avg.push_back(avgRGB);
+        return avg;
+}
+
+
+bool checkDimensions (vector < vector <Pixel> > initialMatrix, vector < vector <Pixel> > newMatrix)
+{
+
+//first matrix dimensions are saved and compared to the others
+
+const int initialMatrix.size() = height;
+const int initialMatrix[0].size() = width; 
+
+if (newMatrix.size() == height && newMatrix[0].size() == width)
+        {
+
+                return true;
+        }
+        else 
+        {
+                return false;
+        }
+
+}
