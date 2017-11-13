@@ -51,14 +51,14 @@ int main()
 
                         if (checkDimensions==true)
                         {
+                                //find average value of pixels
+                                averageRGB();
                                 i=i++;
                         } 
                         else 
                         {
                                 i=i-1;
                         }
-                        //find average value of pixels
-                        averageRGB();
 
                 }
                 else if (validBmp == false) 
@@ -69,8 +69,11 @@ int main()
                 cout<<"Image "<<(i+1)<<" of 10 done."<<endl;
         }
 
-        image.fromPixelMatrix(bmp);
-        image.save("composite-hsilveira1.bmp");
+       //creates composite image (of images thus far)
+       //???
+       
+       image.fromPixelMatrix(bmp);
+       image.save("composite-hsilveira1.bmp");
 
         return 0;
 }
@@ -88,10 +91,6 @@ vector <double> averageRGB ();
                         rgb = bmp[r][c];
 
                         avgRGB = (rgb.red + rgb.green + rgb.blue)/3;
-                        //  rgb.red = avgRGB;
-                        //  rgb.green = avgRGB;
-                        //  rgb.blue = avgRGB;
-                        //  bmp[r][c] = rgb;
                 }
 
         }
