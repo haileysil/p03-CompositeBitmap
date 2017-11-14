@@ -8,7 +8,7 @@ using namespace std;
 
 bool checkDimensions (vector < vector <Pixel> >, vector < vector <Pixel> >);
 
-vector < vector <Pixel> > averageRGB (vector < vector <Pixel> >, vector <string> &);
+vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > &, vector <string> &);
 
 int main()
 {
@@ -83,7 +83,9 @@ int main()
         return 0;
 }
 
-vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > bmp, vector <string> & ListImageNames)
+//if I'm changing the vector of vectors bmp, is the return type void?
+
+vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > & bmp, vector <string> & ListImageNames)
 {
         vector < vector <Pixel> > AverageImage;
 
@@ -103,15 +105,18 @@ vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > bmp, vector <str
                                 sumGreen = (sumGreen + rgb.green);
                                 sumBlue = (sumBlue + rgb.blue);
                         }
-                        int avgRed = sumRed/ListImageNames.size();
-                        int avgGreen = sumGreen/ListImageNames.size();
-                        int avgBlue = sumBlue/ListImageNames.size();
                 }
-        }
-        AverageImage[r][c].red = avgRed;
-        AverageImage[r][c].green = avgGreen;
-        AverageImage[r][c].blue = avgBlue;
 
+                //I need to find the location of these two parts
+
+                int avgRed = sumRed/ListImageNames.size();
+                int avgGreen = sumGreen/ListImageNames.size();
+                int avgBlue =  sumBlue/ListImageNames.size();
+
+                AverageImage[r][c].red = avgRed;
+                AverageImage[r][c].green = avgGreen;
+                AverageImage[r][c].blue = avgBlue;
+        }
         return AverageImage;
 }
 
