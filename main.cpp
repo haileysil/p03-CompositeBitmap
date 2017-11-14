@@ -83,11 +83,10 @@ int main()
         return 0;
 }
 
-//if I'm changing the vector of vectors bmp, is the return type void?
-
 vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > & bmp, vector <string> & ListImageNames)
 {
         vector < vector <Pixel> > AverageImage;
+        Pixel rgb;
 
         for (int r = 0; r < bmp.size(); r++)
         {
@@ -105,17 +104,18 @@ vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > & bmp, vector <s
                                 sumGreen = (sumGreen + rgb.green);
                                 sumBlue = (sumBlue + rgb.blue);
                         }
+
+
+                        //Are these in the right location in the nested for loops?
+
+                        int avgRed = sumRed/ListImageNames.size();
+                        int avgGreen = sumGreen/ListImageNames.size();
+                        int avgBlue =  sumBlue/ListImageNames.size();
+
+                        AverageImage[r][c].red = avgRed;
+                        AverageImage[r][c].green = avgGreen;
+                        AverageImage[r][c].blue = avgBlue;
                 }
-
-                //I need to find the location of these two parts
-
-                int avgRed = sumRed/ListImageNames.size();
-                int avgGreen = sumGreen/ListImageNames.size();
-                int avgBlue =  sumBlue/ListImageNames.size();
-
-                AverageImage[r][c].red = avgRed;
-                AverageImage[r][c].green = avgGreen;
-                AverageImage[r][c].blue = avgBlue;
         }
         return AverageImage;
 }
@@ -123,8 +123,8 @@ vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > & bmp, vector <s
 bool checkDimensions (vector < vector <Pixel> > initialMatrix, vector < vector <Pixel> > newMatrix)
 {
         int height,width;
-        const int initialMatrix.size() = height;
-        const int initialMatrix[0].size() = width; 
+        height = initialMatrix.size();
+        width = initialMatrix[0].size(); 
 
         if (newMatrix.size() == height && newMatrix[0].size() == width)
         {
