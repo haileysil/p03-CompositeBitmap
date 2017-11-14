@@ -6,13 +6,9 @@
 
 using namespace std;
 
-//function checks to see if the image has the correct dimensions
 bool checkDimensions (vector < vector <Pixel> >);
 
-//function determines average pixel value
-vector <double> averageRGB ();
-
-void createComposite(vector<vector<Pixel>>)
+vector < vector <Pixel> > averageRGB (vector < vector <Pixel> >, vector <string> &);
 
 int main()
 {
@@ -31,6 +27,8 @@ int main()
                 cout<<"What is the name of the image you would like to upload?"<<endl;
                 cin>>imageName;
 
+                vector <string> ListImageNames;
+
                 image.open(imageName);
 
                 validBmp = image.isImage();
@@ -43,79 +41,87 @@ int main()
                 if (validBmp == true)
                 {
                         //convert image to matrix of pixels
-
-                        bmp = image.toPixelMatrix();
-
-                        //check dimensions
-                        checkDimensions(bmp);
-
-                        if (checkDimensions==true)
+                        if (ListImageNames.size() == 0)
                         {
-                                //find average value of pixels
-                                averageRGB();
-                                i=i++;
-                        } 
-                        else 
+                                original_bmp = image.toPixelMatrix();
+                                ListImageNames.push_back (imageName);
+                        }
+                        else
+                        {
+                                bmp = image.toPixelMatrix();
+
+                                //check dimensions
+                                if (checkDimensions(original_bmp,bmp))
+                                {
+                                        ListImageNames.push_back (imageName); 
+                                        //find average value of pixels
+                                        averageRGB(bmp,ListImageNames);
+                                        //do i create composite image here?
+                                        i=i++;
+                                } 
+                                else 
+                                {
+                                        i=i-1;
+                                }
+
+                        }
+                        else if (validBmp == false) 
                         {
                                 i=i-1;
                         }
 
+                        cout<<"Image "<<(i+1)<<" of 10 done."<<endl;
                 }
-                else if (validBmp == false) 
+
+                //creates composite image (of images thus far) ~ or here?
+
+                image.fromPixelMatrix(bmp);
+                image.save("composite-hsilveira1.bmp");
+
+                return 0;
+        }
+
+        vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > bmp, vector <string> & ListImageNames);
+        {
+                vector < vector <Pixel> > AverageImage;
+
+                ListImageNames.size()= numImages;
+
+                for (int r = 0; r < bmp.size(); r++)
                 {
-                        i=i-1;
-                }
+                        for (int c = 0; c < bmp[r].size(); c++)
+                        {
+                                int avgRed, avgGreen, avgBlue = 0;
 
-                cout<<"Image "<<(i+1)<<" of 10 done."<<endl;
+                                for (int i=0; i < numImages; i++) //for loop for each image
+                                {
+                                        rgb = bmp[r][c];
+
+                                        avgRed = (avgRed + rgb.red);
+                                        avgGreen = (avgGreen + rgb.green);
+                                        avgBlue = (avgBlue + rgb.blue);
+                                }
+                                avgRed = avgRed/numImages;
+                                avgGreen = avgGreen/numImages;
+                                avgBlue = avgBlue/numImages;
+                        }
+                }
+                AverageImage[r][c].red = avgRed;
+                AverageImage[r][c].green = avgGreen;
+                AverageImage[r][c].blue = avgBlue;
         }
 
-       //creates composite image (of images thus far)
-       //???
-       
-       image.fromPixelMatrix(bmp);
-       image.save("composite-hsilveira1.bmp");
-
-        return 0;
-}
-
-
-vector <double> averageRGB ();
-{
-        int avgRGB = 0;
-        vector <double> avg;
-
-        for (int r = 0; r < bmp.size(); r++)
+        bool checkDimensions (vector < vector <Pixel> > initialMatrix, vector < vector <Pixel> > newMatrix)
         {
-                for (int c = 0; c < bmp[r].size(); c++)
+                const int initialMatrix.size() = height;
+                const int initialMatrix[0].size() = width; 
+
+                if (newMatrix.size() == height && newMatrix[0].size() == width)
                 {
-                        rgb = bmp[r][c];
-
-                        avgRGB = (rgb.red + rgb.green + rgb.blue)/3;
+                        return true;
                 }
-
+                else 
+                {
+                        return false;
+                }
         }
-        //stores average RGB values in vector
-        avg.push_back(avgRGB);
-        return avg;
-}
-
-
-bool checkDimensions (vector < vector <Pixel> > initialMatrix, vector < vector <Pixel> > newMatrix)
-{
-
-//first matrix dimensions are saved and compared to the others
-
-const int initialMatrix.size() = height;
-const int initialMatrix[0].size() = width; 
-
-if (newMatrix.size() == height && newMatrix[0].size() == width)
-        {
-
-                return true;
-        }
-        else 
-        {
-                return false;
-        }
-
-}
