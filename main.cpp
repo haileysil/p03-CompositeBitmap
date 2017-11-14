@@ -95,7 +95,7 @@ vector < vector <Pixel> > averageRGB (vector < vector <Pixel> > bmp, vector <str
                         int sumGreen = 0;
                         int sumBlue = 0;
 
-                        for (int i=0; i < numImages; i++) //for loop for each image
+                        for (int i=0; i < ListImageNames.size(); i++) //for loop for each image
                         {
                                 rgb = bmp[r][c];
 
